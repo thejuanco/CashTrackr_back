@@ -13,7 +13,7 @@ class Budget extends Model {
     @Column({
         type: DataType.DECIMAL
     })
-    amount: number
+    declare amount: number
 }
 
 export default Budget

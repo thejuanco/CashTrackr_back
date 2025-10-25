@@ -1,4 +1,5 @@
-import { response, type Request, type Response } from "express"
+import { type Request, type Response } from "express"
+import Budget from "../models/Budget"
 
 export class BudgetController {
     static getAll = async (req: Request, res: Response) => {
@@ -6,7 +7,14 @@ export class BudgetController {
     }
     
     static create = async (req: Request, res: Response) => {
-        console.log('create api/budget')
+        try {
+            const budget = new Budget(req.body)
+            await budget.save()
+            return res.status(201).json("Presupuesto creado correctamente")
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({error: "Hubo un error"})
+        }
     }
 
     static getById = async (req: Request, res: Response) => {
