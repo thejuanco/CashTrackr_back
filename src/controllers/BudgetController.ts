@@ -32,7 +32,19 @@ export class BudgetController {
     }
 
     static getById = async (req: Request, res: Response) => {
-        console.log('Api budget gbi')
+        try {
+            const {id} = req.params
+            const budget = await Budget.findByPk(id)
+
+            if(!budget){
+                const error = new Error("Presupuesto no encontrado")
+                return res.status(404).json({error: error.message})
+            }
+            
+            res.json(budget)
+        } catch (error) {
+            res.status(500).json({errro: "Hubo un error al obtener los datos solicitados"})
+        }
     }
 
     static updateById = async (req: Request, res: Response) => {
