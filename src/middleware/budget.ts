@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { param, validationResult } from "express-validator";
+import { body, param, validationResult } from "express-validator";
 import Budget from "../models/Budget";
 
 //Sobreescribiendo la propiedad de Request en express
@@ -39,4 +39,16 @@ export const validateBudgetExists = async (req: Request, res: Response, next: Ne
     } catch (error) {
         res.status(500).json({ errro: "Hubo un error al obtener los datos solicitados" })
     }
+}
+
+export const validateBudgetInput = async (req: Request, res: Response, next: NextFunction) => {
+    await body("name")
+        .notEmpty().withMessage("El nombre del presupuesto no puede ir vacío").run(req)
+
+    await body("amount")
+        .notEmpty().withMessage("La cantidad del presupuesto no puede ir vacío")
+        .isNumeric().withMessage("Cantidad no válida")
+        .custom(value => value > 0).withMessage("El presupuesto debe ser mayor a cero").run(req)
+
+    next()
 }
