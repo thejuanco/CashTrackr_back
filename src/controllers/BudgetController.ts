@@ -66,6 +66,20 @@ export class BudgetController {
     }
 
     static deleteById = async (req: Request, res: Response) => {
-        console.log('Api budget gbi')
+        try {
+            const {id} = req.params
+            const budget = await Budget.findByPk(id)
+
+            if(!budget){
+                const error = new Error("Presupuesto no encontrado")
+                return res.status(404).json({error: error.message})
+            }
+            
+            //Elimina el presupuesto
+            await budget.destroy()
+            res.json('Presupuesto eliminado correctamente')
+        } catch (error) {
+            res.status(500).json({errro: "Hubo un error al obtener los datos solicitados"})
+        }
     }
 }
