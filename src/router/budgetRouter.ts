@@ -3,13 +3,14 @@ import { BudgetController } from "../controllers/BudgetController";
 import { handleInputErrors } from "../middleware/validation";
 import { validateBudget, validateBudgetExists, validateBudgetInput } from "../middleware/budget";
 import { ExpensesController } from "../controllers/ExpenseController";
-import { validateExpenseInput } from "../middleware/expense";
+import { validateExpenseId, validateExpenseInput } from "../middleware/expense";
 
 const router = Router()
 
 //Cada ruta que utilice id, se valida automaticamente
-router.param('budgetId', validateBudget)
-router.param('budgetId', validateBudgetExists)
+router.param("budgetId", validateBudget)
+router.param("budgetId", validateBudgetExists)
+router.param("expenseId", validateExpenseId)
 
 router.get("/", BudgetController.getAll)
 
