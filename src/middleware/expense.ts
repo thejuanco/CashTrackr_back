@@ -24,7 +24,7 @@ export const validateExpenseInput = async (req: Request, res: Response, next: Ne
 }
 
 export const validateExpenseId = async (req: Request, res: Response, next: NextFunction) => {
-    await param("expenseId").isInt().custom(value => {value > 0})
+    await param("expenseId").isInt().custom(value => value > 0)
         .withMessage("ID no válido").run(req)
 
     let errors = validationResult(req)
@@ -37,9 +37,10 @@ export const validateExpenseId = async (req: Request, res: Response, next: NextF
 
 export const validateExpenseExists = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        debugger
+        //debugger
         const { expenseId } = req.params
         const expense = await Expense.findByPk(expenseId)
+        console.log(expenseId)
 
         if (!expense) {
             const error = new Error("Gasto no encontrado")
