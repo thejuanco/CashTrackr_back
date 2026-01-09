@@ -45,6 +45,10 @@ router.put("/:budgetId/expenses/:expenseId",
     ExpensesController.updateById
 )
 
-router.delete("/:budgetId/expenses/:expenseId", ExpensesController.deleteById)
+router.delete("/:budgetId/expenses/:expenseId", 
+    validateExpenseExists,
+    handleInputErrors,
+    ExpensesController.deleteById
+)
 
 export default router
