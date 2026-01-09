@@ -23,10 +23,20 @@ export class ExpensesController {
     }
 
     static updateById = async (req: Request, res: Response) => {
- 
+        try {
+            req.expense.update(req.body)
+            res.status(201).json("Gasto actualizado correctamente")
+        } catch (error) {
+            res.status(500).json({error: "Ocurrio un error"})
+        }
     }
   
     static deleteById = async (req: Request, res: Response) => {
-
+        try {
+            req.expense.destroy()
+            res.status(201).json("Gasto eliminado correctamente")
+        } catch (error) {
+            res.status(500).json({error: "Ocurrio un error"})
+        }
     }
 }
