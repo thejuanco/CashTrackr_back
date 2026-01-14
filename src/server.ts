@@ -2,6 +2,7 @@ import express from 'express'
 import morgan from 'morgan'
 import { db } from './config/db'
 import budgetRouter from './router/budgetRouter'
+import authRouter from './router/authRouter'
 
 async function connectDB() {
     try {
@@ -22,5 +23,6 @@ app.use(express.json())
 
 //Rutas
 app.use('/api/budgets', budgetRouter)
+app.use('/api/auth', authRouter)
 
 export default app
