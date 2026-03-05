@@ -1,10 +1,11 @@
 import { type Request, type Response } from "express"
 import User from "../models/User"
+import { hashPassword } from "../utils/auth"
 
 export class BudgetController {
     static createAccount = async (req: Request, res: Response) => {
         try {
-            const {email} = req.body
+            const {email, password} = req.body
 
             //prevenir usuarios duplicados
             const userExists = await User.findOne({where: {email}})
@@ -15,6 +16,7 @@ export class BudgetController {
 
             //Guardar el usuario
             const user = new User(req.body)
+            user.password = await hashPassword(password)
             await user.save()
 
             res.json('Cuenta creada correctamente')
