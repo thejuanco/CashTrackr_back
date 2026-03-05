@@ -1,7 +1,14 @@
 import { type Request, type Response } from "express"
+import User from "../models/User"
 
 export class BudgetController {
     static createAccount = async (req: Request, res: Response) => {
-        res.json({ message: "Cuenta creada exitosamente" })
+        try {
+            const user = new User(req.body)
+            await user.save()
+            res.json('Cuenta creada correctamente')
+        } catch (error) {
+            res.status(500).json({error: 'Hubo un error'})
+        }
     }
 }
