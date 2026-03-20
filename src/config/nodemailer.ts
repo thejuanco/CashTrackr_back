@@ -8,7 +8,7 @@ const config = () => {
         port: +process.env.EMAIL_PORT,
         auth: {
             user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PAS
+            pass: process.env.EMAIL_PASS
         }
     }
 }
