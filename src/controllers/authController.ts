@@ -4,7 +4,7 @@ import { hashPassword } from "../utils/auth"
 import { generateToken } from "../utils/token"
 import { AuthEmail } from "../emails/AuthEmail"
 
-export class BudgetController {
+export class AuthController {
     static createAccount = async (req: Request, res: Response) => {
         try {
             const {email, password} = req.body
@@ -33,5 +33,9 @@ export class BudgetController {
             console.log(error)
             res.status(500).json({error: 'Hubo un error'})
         }
+    }
+
+    static confirmAccount = async (req: Request, res: Response) => {
+        console.log('Desde confirmar')
     }
 }

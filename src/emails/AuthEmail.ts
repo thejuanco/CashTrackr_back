@@ -19,6 +19,5 @@ export class AuthEmail {
                 <p>e ingresa el siguiente código: <b>${user.token}</b></p>
             `
         })
-        console.log(email)
     }
 }
