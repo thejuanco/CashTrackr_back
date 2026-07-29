@@ -36,9 +36,9 @@ export class AuthController {
     }
 
     static confirmAccount = async (req: Request, res: Response) => {
-        const {token} = req.body.token
+        const {token} = req.body
         
-        const user = await User.findOne({where: token})
+        const user = await User.findOne({where: {token}})
         if(!user){
             const error = new Error('Token no válido')
             return res.status(401).json({error: error.message})
