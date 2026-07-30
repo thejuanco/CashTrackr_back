@@ -3,6 +3,7 @@ import User from "../models/User"
 import { checkPassword, hashPassword } from "../utils/auth"
 import { generateToken } from "../utils/token"
 import { AuthEmail } from "../emails/AuthEmail"
+import { generateTokenJWT } from "../utils/jwt"
 
 export class AuthController {
     static createAccount = async (req: Request, res: Response) => {
@@ -72,7 +73,8 @@ export class AuthController {
                 return res.status(403).json({error: error.message})
             }
             
-            res.json(isPasswordCorrect)
+            const token = generateTokenJWT(user.id)
+            res.json(token)
 
         } catch (error) {
             console.log(error)
