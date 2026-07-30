@@ -13,7 +13,8 @@ router.post('/create-account',
         .isLength({min: 8}).withMessage('La contraseña es muy corta'),
     body('email')
         .isEmail().withMessage('El correo electronico no es valído'),
-AuthController.createAccount)
+    AuthController.createAccount
+)
 
 router.post('/confirm-account',
     limiter,
@@ -23,6 +24,14 @@ router.post('/confirm-account',
         .withMessage('Token no válido'),
     handleInputErrors,
     AuthController.confirmAccount
+)
+
+router.post('/login', 
+    body('email').
+        isEmail().withMessage("El correo no es válido"),
+    body('password')
+        .notEmpty().withMessage("La contraseña es obligatoria"),
+    AuthController.login
 )
 
 export default router
