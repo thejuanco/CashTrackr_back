@@ -6,6 +6,8 @@ import { limiter } from "../config/limiter";
 
 const router = Router()
 
+router.use(limiter)
+
 router.post('/create-account', 
     body('name')
         .notEmpty().withMessage('El nombre no puede ir vacío'),
@@ -17,7 +19,6 @@ router.post('/create-account',
 )
 
 router.post('/confirm-account',
-    limiter,
     body('token')
         .notEmpty()
         .isLength({min: 6, max: 6})
