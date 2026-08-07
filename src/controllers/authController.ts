@@ -93,6 +93,17 @@ export class AuthController {
                 return res.status(404).json({error: error.message})
             }
 
+            user.token = generateToken()
+            await user.save()
+            
+            await AuthEmail.sendPasswordResetToken({
+                name: user.name,
+                email: user.email,
+                token: user.token
+            })
+
+            res.json('Revisa tu correo para instrucciones')
+
         } catch (error) {
             console.log(error)
             res.status(500).json({error: 'Hubo un error'})
