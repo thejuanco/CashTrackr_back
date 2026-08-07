@@ -114,12 +114,36 @@ export class AuthController {
         try{
             const { token } = req.body
             const tokenExists = await User.findOne({where: {token}})
-            if(!token) {
+            if(!tokenExists) {
                 const error = new Error('Token no válido')
                 return res.status(404).json({error: error.message})
             }
 
             res.json('Token válido')
+
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({error: 'Hubo un error'})
+        }
+    }
+
+    static resetPasswordWithToken = async (req: Request, res: Response) => {
+        try{
+            const { token } = req.params
+            const { password } = req.body
+
+            const user = await User.findOne({where: {token}})
+            if(!user) {
+                const error = new Error('Token no válido')
+                return res.status(404).json({error: error.message})
+            }
+
+            //Actualizar contraseña
+            user.password = await hashPassword(password)
+            user.token = null
+            await user.save()
+            
+            res.json('La contraseña se actualizo correctamente')
 
         } catch (error) {
             console.log(error)
