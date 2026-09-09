@@ -167,9 +167,15 @@ export class AuthController {
         }
 
         try{
-            
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
-            res.json(decoded)
+
+            if(typeof decoded === 'object' && decoded.id){
+                const user = await User.findByPk(decoded.id, {
+                    attributes: ['id', 'name', 'email']
+                })
+                
+                res.json(user)
+            }
 
         } catch (error) {
             res.status(500).json({error: 'Hubo un error'})
