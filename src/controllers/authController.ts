@@ -1,4 +1,5 @@
 import { type Request, type Response } from "express"
+import jwt from "jsonwebtoken"
 import User from "../models/User"
 import { checkPassword, hashPassword } from "../utils/auth"
 import { generateToken } from "../utils/token"
@@ -152,11 +153,25 @@ export class AuthController {
     }
 
     static user = async (req: Request, res: Response) => {
+        const bearer = req.headers.authorization
+
+        if(!bearer){
+            const error = new Error("No autorizado")
+            return res.status(401).json({error: error.message})
+        }
+        
+        const [ , token] = bearer.split(' ')
+        if(!token){
+            const error = new Error("Token no válido")
+            return res.status(401).json({error: error.message})
+        }
+
         try{
-            res.json(req.headers.authorization)
+            
+            const decoded = jwt.verify(token, process.env.JWT_SECRET)
+            res.json(decoded)
 
         } catch (error) {
-            console.log(error)
             res.status(500).json({error: 'Hubo un error'})
         }
     }
