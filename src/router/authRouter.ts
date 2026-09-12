@@ -4,6 +4,7 @@ import { AuthController } from "../controllers/authController";
 import { handleInputErrors } from "../middleware/validation";
 import { limiter } from "../config/limiter";
 import { authenticate } from "../middleware/auth";
+import { NotEmpty } from "sequelize-typescript";
 
 const router = Router()
 
@@ -66,6 +67,16 @@ router.post('/reset-password/:token',
 router.get('/user',
     authenticate,
     AuthController.user
+)
+
+router.post('/update-password',
+    authenticate,
+    body('current_password')
+        .notEmpty().withMessage('La contraseña no puede ir vacía'),
+    body('password')
+        .isLength({min: 8}).withMessage('La contraseña nueva es muy corta, minímo 8 caracteres'),
+    handleInputErrors,
+    AuthController.updateCurrentPassword
 )
 
 export default router
