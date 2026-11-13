@@ -9,11 +9,9 @@ export class BudgetController {
                 order: [
                     ['createdAt', 'DESC']
                 ],
-                //TODO: Filtrar por el usuario
-                // limit: 10,
-                // where: {
-                //     name: 'Vacaciones'
-                // }
+                where: {
+                    userId: req.user.id
+                }
             })
             res.json(budgets)
         } catch (error) {
