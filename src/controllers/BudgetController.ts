@@ -27,7 +27,6 @@ export class BudgetController {
             
             return res.status(201).json("Presupuesto creado correctamente")
         } catch (error) {
-            console.log(error)
             res.status(500).json({error: "Hubo un error"})
         }
     }

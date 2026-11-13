@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { BudgetController } from "../controllers/BudgetController";
 import { handleInputErrors } from "../middleware/validation";
-import { validateBudget, validateBudgetExists, validateBudgetInput } from "../middleware/budget";
+import { hasAccess, validateBudget, validateBudgetExists, validateBudgetInput } from "../middleware/budget";
 import { ExpensesController } from "../controllers/ExpenseController";
 import { validateExpenseExists, validateExpenseId, validateExpenseInput } from "../middleware/expense";
 import { authenticate } from "../middleware/auth";
@@ -13,6 +13,7 @@ router.use(authenticate)
 //Cada ruta que utilice id, se valida automaticamente
 router.param("budgetId", validateBudget)
 router.param("budgetId", validateBudgetExists)
+router.param("budgetId", hasAccess)
 
 router.param("expenseId", validateExpenseId)
 router.param("expenseId", validateExpenseExists)
